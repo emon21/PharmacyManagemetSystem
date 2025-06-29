@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,27 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+# Authentication Route
+
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/forgot-account', [AuthController::class, 'ForgotAccount'])->name('forgot-account');
+Route::get('backend/dashboard', [DashboardController::class, 'dashboard']);
+
+# ================== Backend Route ================== #
+
+
+# Backend prefix and group route
+
+// Route::prefix('admin')->group(function () {
+
+//     // route for admin dashboard
+// });
+
+# ================== Frontend Route ================== #
+
+// Route::prefix('frontend')->group(function () {
+
+//     // route for frontend
+
+// });
