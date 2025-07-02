@@ -22,8 +22,18 @@ Route::get('/', function () {
 # Authentication Route
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login-post', [AuthController::class, 'LoginPost']);
 Route::get('/forgot-account', [AuthController::class, 'ForgotAccount'])->name('forgot-account');
-Route::get('backend/dashboard', [DashboardController::class, 'dashboard']);
+
+
+Route::group(['middleware' => 'admin'], function () {
+
+    Route::get('admin/dashboard', [DashboardController::class, 'dashboard']);
+    
+});
+
+Route::get('logout', [AuthController::class, 'logout']);
+
 
 # ================== Backend Route ================== #
 
