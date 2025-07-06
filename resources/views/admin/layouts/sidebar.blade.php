@@ -13,11 +13,18 @@
         </div>
 
         <li class="nav-item">
-            <a class="nav-link active" href="{{ url('admin/dashboard') }}">
+            <a class="nav-link @if (Request::is('admin/dashboard') ) @else collapsed @endif" href="{{ url('admin/dashboard') }}">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
         </li><!-- End Dashboard Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link @if (Request::segment(2) == 'customers' ) @else collapsed @endif" href="{{ route('customers') }}">
+                <i class="bi bi-person"></i>
+                <span>Customer</span>
+            </a>
+        </li>
 
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">

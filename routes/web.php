@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,10 +38,26 @@ Route::group(['middleware' => 'admin'], function () {
     # User Profile
     Route::get('admin/user/profile', [AuthController::class, 'userProfile'])->name('user.profile');
     Route::post('admin/user/profile/change', [AuthController::class, 'ProfileChange'])->name('profile.change');
+
+    # Customer Route
+    // Route::resource('admin/customer', CustomerController::class);
+    Route::get('admin/customers', [CustomerController::class, 'index'])->name('customers');
+
+    Route::get('admin/customers/create', [CustomerController::class, 'create'])->name('customers.create');
+    Route::post('admin/customers/store', [CustomerController::class, 'store'])->name('customers.store');
+
+    Route::get('admin/customers/edit/{customer}', [CustomerController::class, 'edit'])->name('customers.edit');
+    Route::put('admin/customers/update/{customer}', [CustomerController::class, 'update'])->name('customers.update');
+
+    Route::delete('admin/customers/destroy/{customer}', [CustomerController::class, 'destroy'])->name('customers.destroy');
+
+    #show 
+    Route::get('admin/customers/show/{customer}', [CustomerController::class, 'show'])->name('customers.show');
     
+    # Logout
+    Route::post('logout', [AuthController::class, 'logout']);
 });
 
-Route::post('logout', [AuthController::class, 'logout']);
 
 
 # ================== Backend Route ================== #
