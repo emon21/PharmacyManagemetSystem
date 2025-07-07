@@ -25,6 +25,14 @@
   <link href="{{ asset('admin') }}/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="{{ asset('admin') }}/assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
+  <!-- Toastr Notification --->
+  {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"> --}}
+
+  <!-- Toastr CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.22.2/sweetalert2.css"/>
+
   <!-- Template Main CSS File -->
   <link href="{{ asset('admin') }}/assets/css/style.css" rel="stylesheet">
 
@@ -60,7 +68,8 @@
   @include('admin.layouts.footer')
   <!-- End Footer -->
 
- 
+ <!-- jQuery (required by Toastr) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <!-- Vendor JS Files -->
   <script src="{{ asset('admin') }}/assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -71,10 +80,153 @@
   <script src="{{ asset('admin') }}/assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="{{ asset('admin') }}/assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="{{ asset('admin') }}/assets/vendor/php-email-form/validate.js"></script>
+ <!-- Toastr Notification --->
+ {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  --}}
+
+  <!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
   <!-- Template Main JS File -->
   <script src="{{ asset('admin') }}/assets/js/main.js"></script>
 
+ 
+  <script>
+    // @if (session('success'))
+    //   toastr.success("{{ session('success') }}");
+    // @endif
+
+    // @if (session('error'))
+    //   toastr.error("{{ session('error') }}");
+    // @endif
+
+    // @if (session('info'))
+    //   toastr.info("{{ session('info') }}");
+    // @endif
+
+    // @if (session('warning'))
+    //   toastr.warning("{{ session('warning') }}");
+    // @endif
+    // @if (session('message'))
+    //   toastr.info("{{ session('message') }}");
+    // @endif
+    // @if (session('messages'))
+    //   toastr.info("{{ session('messages') }}");
+    // @endif
+    // @if (session('errors'))
+    //   toastr.error("{{ session('errors') }}");
+    // @endif
+    
+
+    // # switch case
+        // switch (session('type')) {
+        //   case 'success':
+        //     toastr.success("{{ session('message') }}");
+        //     break;
+        //   case 'error':
+        //     toastr.error("{{ session('message') }}");
+        //     break;
+        //   case 'info':
+        //     toastr.info("{{ session('message') }}");
+        //     break;
+        //   case 'warning':
+        //     toastr.warning("{{ session('message') }}");
+        //     break;
+        //   default:
+        //     toastr.info("{{ session('message') }}");
+        // }
+
+    // @if(Session::has('message'))
+    //     toastr.info("{{ Session::get('message') }}");
+    // @endif
+
+    // @if(Session::has('success'))
+    //     toastr.success("{{ Session::get('success') }}");
+    // @endif
+
+    // @if(Session::has('error'))
+    //     toastr.error("{{ Session::get('error') }}");
+    // @endif
+
+    // @if(Session::has('info'))
+    //     toastr.info("{{ Session::get('info') }}");
+    // @endif
+
+    // @if(Session::has('warning'))
+    //     toastr.warning("{{ Session::get('warning') }}");
+    // @endif
+
+  </script>
+
+
+<!-- SweetAlert2 CSS & JS -->
+{{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.22.2/sweetalert2.min.js" ></script>
+<script>
+  @if(session('success'))
+      Swal.fire({
+          icon: 'success',
+          title: '{{ session("success") }}',
+          showConfirmButton: false,
+          timer: 2000
+      });
+  @endif
+
+  @if(session('info'))
+      Swal.fire({
+          icon: 'success',
+          title: '{{ session("info") }}',
+          showConfirmButton: false,
+          timer: 2000,
+  position: "top-end",
+
+      });
+  @endif
+
+//   Swal.fire({
+//   title: "Drag me!",
+//   icon: "success",
+//   draggable: true
+// });
+
+// Swal.fire({
+//   position: "top-end",
+//   icon: "success",
+//   title: "Your work has been saved",
+//   showConfirmButton: false,
+//   timer: 1500
+// });
+
+  @if(session('error'))
+      Swal.fire({
+          icon: 'error',
+          title: '{{ session("error") }}',
+          showConfirmButton: false,
+          timer: 2000
+      });
+  @endif
+
+// <!-- Delete Medicine --->
+  function deleteConfirm(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-form-' + id).submit();
+            }
+        });
+    }
+</script>
+
+{{-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> --}}
+
+@stack('scripts')
 </body>
 
 </html>

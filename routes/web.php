@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MedicineController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +54,44 @@ Route::group(['middleware' => 'admin'], function () {
 
     #show 
     Route::get('admin/customers/show/{customer}', [CustomerController::class, 'show'])->name('customers.show');
+
+
+    # ============= Medicine Route Start ============= #
+
+    // Route::resource('admin/medicine', MedicineController::class);
+    
+
+    Route::get('admin/medicine', [MedicineController::class, 'index'])->name('medicine');
+
+    Route::get('admin/medicine/create', [MedicineController::class, 'create'])->name('medicine.create');
+
+    Route::post('admin/medicine/store', [MedicineController::class, 'store'])->name('medicine.store');
+
+    Route::get('admin/medicine/edit/{medicine}', [MedicineController::class, 'edit'])->name('medicine.edit');
+
+    Route::put('admin/medicine/update/{medicine}', [MedicineController::class, 'update'])->name('medicine.update');
+
+    Route::delete('admin/medicine/destroy/{medicine}', [MedicineController::class, 'destroy'])->name('medicine.destroy');
+    
+    Route::get('admin/medicine/show/{medicine}', [MedicineController::class, 'show'])->name('medicine.show');
+
+
+    // Route::get('admin/medicine/search', [MedicineController::class, 'search'])->name('medicine.search');
+
+    // Route::get('admin/medicine/stock', [MedicineController::class, 'stock'])->name('medicine.stock');
+    
+    // Route::get('admin/medicine/stock/search', [MedicineController::class, 'stockSearch'])->name('medicine.stock.search');
+    // Route::get('admin/medicine/stock/report', [MedicineController::class, 'stockReport'])->name('medicine.stock.report');
+    // Route::get('admin/medicine/stock/report/pdf', [MedicineController::class, 'stockReportPdf'])->name('medicine.stock.report.pdf');
+    // Route::get('admin/medicine/stock/report/excel', [MedicineController::class, 'stockReportExcel'])->name('medicine.stock.report.excel');
+    // Route::get('admin/medicine/stock/report/csv', [MedicineController::class, 'stockReportCsv'])->name('medicine.stock.report.csv');
+    // Route::get('admin/medicine/stock/report/print', [MedicineController::class, 'stockReportPrint'])->name('medicine.stock.report.print');
+    // Route::get('admin/medicine/stock/report/barcode', [MedicineController::class, 'stockReportBarcode'])->name('medicine.stock.report.barcode');
+    // Route::get('admin/medicine/stock/report/barcode/pdf', [MedicineController::class, 'stockReportBarcodePdf'])->name('medicine.stock.report.barcode.pdf');
+    // Route::get('admin/medicine/stock/report/barcode/excel', [MedicineController::class, 'stockReportBarcodeExcel'])->name('medicine.stock.report.barcode.excel');
+
+
+    # ============= Medicine Route End ============= #
     
     # Logout
     Route::post('logout', [AuthController::class, 'logout']);
