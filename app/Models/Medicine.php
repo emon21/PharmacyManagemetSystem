@@ -19,5 +19,11 @@ class Medicine extends Model
         'supplierName', 
     ];
 
+    # Relationships
+    public function stocks()
+    {
+        return $this->hasMany(MedicineStock::class, 'medicine_id');
+    }
+
     
 }

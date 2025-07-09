@@ -78,6 +78,25 @@ Route::group(['middleware' => 'admin'], function () {
 
     // Route::get('admin/medicine/search', [MedicineController::class, 'search'])->name('medicine.search');
 
+    Route::get('admin/medicine-stock', [MedicineController::class, 'MedicineStock'])->name('medicine-stock');
+
+    # create
+    Route::get('admin/medicine-stock/create',[MedicineController::class, 'MedicineStockCreate'])->name('medicine-stock.create');
+    
+    # store
+    Route::post('admin/medicine-stock/store',[MedicineController::class, 'MedicineStockStore'])->name('medicine-stock.store');
+
+    # edit
+    Route::get('admin/medicine-stock/edit/{medicineStock}', [MedicineController::class, 'MedicineStockEdit'])->name('medicine-stock.edit');
+
+    #update
+    Route::put('admin/medicine-stock/update/{medicineStock}', [MedicineController::class, 'MedicineStockUpdate'])->name('medicine-stock.update');
+
+    #delete
+    Route::delete('admin/medicine-stock/destroy/{medicineStock}', [MedicineController::class, 'MedicineStockDestroy'])->name('medicine-stock.destroy');
+
+    
+
     // Route::get('admin/medicine/stock', [MedicineController::class, 'stock'])->name('medicine.stock');
     
     // Route::get('admin/medicine/stock/search', [MedicineController::class, 'stockSearch'])->name('medicine.stock.search');
@@ -95,6 +114,7 @@ Route::group(['middleware' => 'admin'], function () {
     
     # Logout
     Route::post('logout', [AuthController::class, 'logout']);
+
 });
 
 

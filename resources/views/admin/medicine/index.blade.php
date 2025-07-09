@@ -12,7 +12,7 @@
     </div>
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center py-2">
-            <h5 class="card-title">All Medicines</h5>
+            <h5 class="card-title"><i class="bi bi-list"></i> Medicine List</h5>
             <a href="{{ route('medicine.create') }}" class="btn btn-outline-primary"><i class="bi bi-person-add"></i>
                 Create Medicine</a>
         </div>
@@ -30,9 +30,9 @@
             </div>
         @endif --}}
         <div class="card-body">
-            <table class="table table-striped datatable">
+            <table class="table table-striped table-bordered datatable">
                 <thead>
-                    <tr>
+                    <tr class="table-success">
                         <th scope="col">ID</th>
                         <th scope="col">Name</th>
                         <th scope="col">Packing</th>
@@ -50,37 +50,42 @@
                             <td>{{ $medicine->genericName }}</td>
                             <td>{{ $medicine->supplierName }}</td>
                             <td>
-                                {{-- <a href="{{ route('medicine.show', $medicine->id) }}" class="btn btn-primary"><i 
-                                class="fa fa-eye"></i> Show</a> --}}
+                                <div class="dropdown">
+                                    <button
+                                        class="btn btn-link text-dark mx-2 d-flex justify-content-center align-items-center"
+                                        type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical fs-5"></i>
+                                    </button>
 
-                                <!-- Button to Open the Modal -->
-                                {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#medicineModal">
-                                    <i class="fa fa-eye"></i> Show
-                                </button> --}}
-                                <button class="btn btn-primary btn-show" data-name="{{ $medicine->name }}"
-                                    data-packing="{{ $medicine->packing }}" data-generic="{{ $medicine->genericName }}"
-                                    data-supplier="{{ $medicine->supplierName }}" data-toggle="modal"
-                                    data-target="#medicineModal">
-                                    <i class="fa fa-eye"></i> Show 
-                                </button>
+                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
 
-                                <a href="{{ route('medicine.edit', $medicine->id) }}" class="btn btn-success"><i
-                                        class="fa fa-edit"></i> Edit</a>
-                                {{-- <form action="{{ route('medicine.destroy', $medicine->id) }}" method="POST"
-                                    style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i>
-                                        Delete</button>
-                                </form> --}}
+                                        <div class="dropdown-item mx-2">
+                                            <button class="btn btn-primary btn-show" data-name="{{ $medicine->name }}"
+                                                data-packing="{{ $medicine->packing }}"
+                                                data-generic="{{ $medicine->genericName }}"
+                                                data-supplier="{{ $medicine->supplierName }}" data-toggle="modal"
+                                                data-target="#medicineModal"><i class="bi bi-"></i>Show
+                                            </button>
 
-                                <form id="delete-form-{{ $medicine->id }}" action="{{ route('medicine.destroy', $medicine->id) }}" method="POST" style="display: none;">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                                <button onclick="deleteConfirm({{ $medicine->id }})" class="btn btn-danger">Delete</button>
+                                            <a class="btn btn-success" href="{{ route('medicine.edit', $medicine->id) }}">
+                                                {{-- <i class="bi bi-arrow-down-left-square"></i> --}}
+                                                <i class="bi bi-pencil-square "></i>
+                                            </a>
 
+                                            <form id="delete-form-{{ $medicine->id }}"
+                                                action="{{ route('medicine.destroy', $medicine->id) }}" method="POST"
+                                                style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                            <button onclick="deleteConfirm({{ $medicine->id }})" class="btn btn-danger"><i
+                                                    class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     @endforeach
@@ -104,7 +109,7 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                   
+
                     <p><strong>Name : </strong> <span id="modalName"></span></p>
                     <p><strong>Packing : </strong> <span id="modalPacking"></span></p>
                     <p><strong>Generic Name : </strong> <span id="modalGeneric"></span></p>
@@ -119,8 +124,8 @@
             </div>
         </div>
     </div>
-    
- @push('scripts')
+
+    @push('scripts')
         <script>
             $(document).ready(function() {
                 $('.btn-show').on('click', function() {
@@ -133,15 +138,27 @@
                     $('#modalPacking').text(packing);
                     $('#modalGeneric').text(generic);
                     $('#modalSupplier').text(supplier);
-
                     $('#medicineModal').modal('show');
                 });
             });
         </script>
     @endpush
 
-
-
-  
-
+    <script>
+        function deleteConfirm(id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + id).submit();
+                }
+            })
+        }
+    </script>
 @endsection

@@ -5,6 +5,11 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Dashboard - Pharmacy M.S</title>
+  <meta content="Pharmacy Management System" name="author">
+  <meta content="Pharmacy Management System" name="Pharmacy Management System">
+  
+  {{-- <title>{{ $title }}</title> --}}
+  
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -19,6 +24,7 @@
   <!-- Vendor CSS Files -->
   <link href="{{ asset('admin') }}/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="{{ asset('admin') }}/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  
   <link href="{{ asset('admin') }}/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
   <link href="{{ asset('admin') }}/assets/vendor/quill/quill.snow.css" rel="stylesheet">
   <link href="{{ asset('admin') }}/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
@@ -26,7 +32,7 @@
   <link href="{{ asset('admin') }}/assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
   <!-- Toastr Notification --->
-  {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"> --}}
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 
   <!-- Toastr CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
@@ -34,15 +40,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.22.2/sweetalert2.css"/>
 
   <!-- Template Main CSS File -->
+  {{-- <link href="{{ asset('admin') }}/assets/css/custom.css" rel="stylesheet"> --}}
   <link href="{{ asset('admin') }}/assets/css/style.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: NiceAdmin
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Updated: Apr 20 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  
 </head>
 
 <body>
@@ -81,15 +82,14 @@
   <script src="{{ asset('admin') }}/assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="{{ asset('admin') }}/assets/vendor/php-email-form/validate.js"></script>
  <!-- Toastr Notification --->
- {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-  --}}
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+ 
 
   <!-- Toastr JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
   <!-- Template Main JS File -->
   <script src="{{ asset('admin') }}/assets/js/main.js"></script>
-
  
   <script>
     // @if (session('success'))
@@ -107,15 +107,34 @@
     // @if (session('warning'))
     //   toastr.warning("{{ session('warning') }}");
     // @endif
+
     // @if (session('message'))
     //   toastr.info("{{ session('message') }}");
     // @endif
+
     // @if (session('messages'))
     //   toastr.info("{{ session('messages') }}");
     // @endif
+
     // @if (session('errors'))
     //   toastr.error("{{ session('errors') }}");
     // @endif
+
+    @if(session('notification'))
+        const notify = {!! json_encode(session('notification')) !!};
+
+        toastr.options = {
+            "closeButton": notify.closeButton,
+            "progressBar": notify.progressBar,
+            "positionClass": "toast-" + notify.position,
+            "timeOut": notify.timeOut,
+            "extendedTimeOut": notify.extendedTimeOut,
+            "showMethod": notify.showMethod,
+            "hideMethod": notify.hideMethod,
+        };
+
+        toastr[notify.type](notify.message, notify.title);
+    @endif
     
 
     // # switch case
@@ -162,6 +181,8 @@
 <!-- SweetAlert2 CSS & JS -->
 {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.22.2/sweetalert2.min.js" ></script>
+<!-- SweetAlert2 JS -->
+<script src="{{ asset('js') }}/custom.js"></script>
 <script>
   @if(session('success'))
       Swal.fire({
@@ -178,7 +199,7 @@
           title: '{{ session("info") }}',
           showConfirmButton: false,
           timer: 2000,
-  position: "top-end",
+          position: "top-end",
 
       });
   @endif
@@ -223,6 +244,7 @@
         });
     }
 </script>
+
 
 {{-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> --}}
 

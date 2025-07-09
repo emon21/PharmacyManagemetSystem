@@ -20,7 +20,14 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            UserSeeder::class
+            UserSeeder::class,
+            MedicineSeeder::class,
         ]);
+
+        // Uncomment the following line to run the MedicineSeeder
+        
+        # medicine seeder on create data insert
+
+        
     }
 }

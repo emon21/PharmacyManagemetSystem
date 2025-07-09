@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Medicine;
 use Illuminate\Http\Request;
+use App\Models\MedicineStock;
+use App\Helpers\NotificationHelper;
 use App\Http\Requests\StoreMedicineRequest;
 use App\Http\Requests\UpdateMedicineRequest;
 
@@ -46,23 +48,30 @@ class MedicineController extends Controller
             $medicine->save();
 
 
-            $notification = [
-                'type' => 'success',
-                'message' => 'Medicine Created successfully.',
-                'title' => 'Success',
-                'position' => 'top-right',
-                'icon' => 'ri-check-line',
-                'progressBar' => true,
-                'timeOut' => 5000, // 5 seconds
-                'extendedTimeOut' => 1000, // 1 second
-                'closeButton' => true,
-                'closeHtml' => '<button type="button" class="btn-close" aria-label="Close"></button>',
-                'showMethod' => 'fadeIn', // Animation for showing the notification
-                'hideMethod' => 'fadeOut', // Animation for hiding the notification
+            // $notification = [
+            //     'type' => 'success',
+            //     'message' => 'Medicine Created successfully.',
+            //     'title' => 'Success',
+            //     'position' => 'top-right',
+            //     'icon' => 'ri-check-line',
+            //     'progressBar' => true,
+            //     'timeOut' => 5000, // 5 seconds
+            //     'extendedTimeOut' => 1000, // 1 second
+            //     'closeButton' => true,
+            //     'closeHtml' => '<button type="button" class="btn-close" aria-label="Close"></button>',
+            //     'showMethod' => 'fadeIn', // Animation for showing the notification
+            //     'hideMethod' => 'fadeOut', // Animation for hiding the notification
 
-            ];
+            // ];
+
+            $notification = NotificationHelper::notify('Medicine Created successfully.');
+
+            // return redirect()->route('medicine.index')->with('notification', $notification);
             
-            return redirect()->route('medicine')->with('info','Data Inserted Successfully');
+            return redirect()->route('medicine')->with('notification',$notification);
+
+            // return redirect()->route('medicine')->with('success', 'Medicine created successfully.');
+
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => 'Failed to create medicine: ' . $e->getMessage()]);
         }
@@ -75,7 +84,6 @@ class MedicineController extends Controller
      */
     public function show(Medicine $medicine)
     {
-
 
         return view('admin.medicine.show', ['medicine' => $medicine]);
     }
@@ -123,13 +131,12 @@ class MedicineController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => 'Failed to update medicine: ' . $e->getMessage()]);
         }
-
-       
-
+        
         
 
         // return redirect()->route('medicine.index')->with('success', 'Medicine updated successfully.');
         // return redirect()->route('medicine')->with('success', 'Medicine updated successfully.');
+
     
     }
 
@@ -140,7 +147,26 @@ class MedicineController extends Controller
     {
         try {
             $medicine->delete();
-            return redirect()->route('medicine')->with('success', 'Medicine deleted successfully.');
+            $notification = NotificationHelper::notify('Medicine Deleted successfully.',
+              'error',  'Delete Success');
+
+            // $notification = [
+            //     'type' => 'success',
+            //     'message' => 'Medicine deleted successfully.',
+            //     'title' => 'Success',
+            //     'position' => 'top-right',
+            //     'icon' => 'ri-check-line',
+            //     'progressBar' => true,
+            //     'timeOut' => 5000, // 5 seconds
+            //     'extendedTimeOut' => 1000, // 1 second
+            //     'closeButton' => true,
+            //     'closeHtml' => '<button type="button" class="btn-close" aria-label="Close"></button>',
+            //     'showMethod' => 'fadeIn', // Animation for showing the notification
+            //     'hideMethod' => 'fadeOut', // Animation for hiding the notification
+            // ];
+
+
+            return redirect()->route('medicine')->with('notification', $notification);
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => 'Failed to delete medicine: ' . $e->getMessage()]);
         }
@@ -150,39 +176,109 @@ class MedicineController extends Controller
     /**
      * Search for a medicine by name.
      */
-    public function search(Request $request)
-    {
-        $searchTerm = $request->input('search');
-        // Logic to search for the medicine by name
-        // For example, you can query the database using Eloquent or Query Builder
+    // public function search(Request $request)
+    // {
+    //     $searchTerm = $request->input('search');
+    //     // Logic to search for the medicine by name
+    //     // For example, you can query the database using Eloquent or Query Builder
 
-        return view('admin.medicine.search_results', compact('searchTerm'));
+    //     return view('admin.medicine.search_results', compact('searchTerm'));
+    // }
+
+   # ============== Medicine Stock ============== #
+  
+    public function MedicineStock()
+    {
+
+      $medicineStocks = MedicineStock::latest()->get();
+
+        return view('admin.medicine-stock.index',[
+            'medicineStocks' => $medicineStocks
+        ]);
     }
 
-    /**
-     * Show the medicine details.
-     */
-    public function showMedicine($id)
+   public function MedicineStockCreate(){
+
+    $medicines = Medicine::latest()->get();
+    return view('admin.medicine-stock.create',['medicines' => $medicines]);
+
+   }
+   
+   public function MedicineStockStore(Request $request, MedicineStock $medicineStock)
+   {
+        # Notification Helper Function
+        $notification = NotificationHelper::notify(
+            'Medicine Stock Created successfully.',
+            'success',
+            'Success'
+        );
+
+        try {
+            $medicineStock->medicine_id = $request->medicine_id;
+            $medicineStock->batch_id = $request->batch_id;
+            $medicineStock->expiry_date = $request->expiry_date;
+            $medicineStock->quantity = $request->quantity;
+            $medicineStock->mrp = $request->mrp;
+            $medicineStock->rate = $request->rate;
+            $medicineStock->save();
+
+            return redirect()->route('medicine-stock')->with('notification', $notification);
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Failed to create medicine stock: ' . $e->getMessage()]);
+        }
+    
+   }
+
+    # Edit Medicine Stock
+
+   public function MedicineStockEdit(MedicineStock $medicineStock)
+   {
+
+    $medicines = Medicine::latest()->get();
+    return view('admin.medicine-stock.edit',[
+        'medicineStock' => $medicineStock,
+        'medicines' => $medicines
+    ]);
+
+   }
+
+    # Update Medicine Stock
+
+    public function MedicineStockUpdate(Request $request, MedicineStock $medicineStock)
     {
-        return view('admin.medicine.show', compact('id'));
+     $medicineStock->medicine_id = $request->medicine_id;
+     $medicineStock->batch_id = $request->batch_id;
+     $medicineStock->expiry_date = $request->expiry_date;
+     $medicineStock->quantity = $request->quantity;
+     $medicineStock->mrp = $request->mrp;
+     $medicineStock->rate = $request->rate;
+     $medicineStock->save();
+
+        # Notification Helper Function
+        $notification = NotificationHelper::notify(
+            'Medicine Stock Updated successfully.',
+            'success',
+            'Success'
+        );
+
+        return redirect()->route('medicine-stock')->with('notification', $notification);
     }
 
-    /**
-     * Show the medicine details.
-     */
-    public function stock()
+    # Delete Medicine Stock
+
+    public function MedicineStockDestroy(MedicineStock $medicineStock)
     {
-        return view('admin.medicine.stock');
+
+        # Notification Helper Function
+        $notification = NotificationHelper::notify('Medicine Stock Deleted successfully.',
+            'error', 'Deleted');
+        try {
+            $medicineStock->delete();
+            return redirect()->route('medicine-stock')->with('notification', $notification);
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Failed to delete medicine stock: ' . $e->getMessage()]);
+        }
     }
 
-    /**
-     * Search for stock.
-     */
-    public function stockSearch(Request $request)
-    {
-        $searchTerm = $request->input('search');
-        // Logic to search for stock by name or other criteria
 
-        return view('admin.medicine.stock_search_results', compact('searchTerm'));
-    }
 }
