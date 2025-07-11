@@ -35,20 +35,18 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link @if (Request::segment(2) == 'medicine-stock') @else collapsed @endif" href="{{ route('medicine-stock') }}">
+            <a class="nav-link @if (Request::segment(2) == 'medicine-stock') @else collapsed @endif"
+                href="{{ route('medicine-stock') }}">
                 <i class="bi bi-stack"></i>
                 <span>Medicine Stock</span>
             </a>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link @if (Request::segment(2) == 'supplier') @else collapsed @endif" href="{{ route('supplier') }}">
+                <i class="bi bi-list"></i>
+                <span>Supplier</span>
+            </a>
+        </li>
     </ul>
-
-    
-
-   Hi , {{ Auth::user()->name }}
-
-    
-
-    <button class="btn btn-danger w-100 fixed">Logout</button>
-
 </aside>

@@ -32,7 +32,7 @@
   <link href="{{ asset('admin') }}/assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
   <!-- Toastr Notification --->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+  <link href="{{ asset('admin') }}/assets/vendor/toastr.min.css" rel="stylesheet">
 
   <!-- Toastr CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
@@ -86,9 +86,10 @@
  
 
   <!-- Toastr JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="{{ asset('admin') }}/assets/vendor/toastr.min.js"></script>
 
   <!-- Template Main JS File -->
+  <script src="{{ asset('admin') }}/assets/js/custom.js"></script>
   <script src="{{ asset('admin') }}/assets/js/main.js"></script>
  
   <script>
@@ -121,20 +122,20 @@
     // @endif
 
     @if(session('notification'))
-        const notify = {!! json_encode(session('notification')) !!};
+   const notify = {!! json_encode(session('notification')) !!};
 
-        toastr.options = {
-            "closeButton": notify.closeButton,
-            "progressBar": notify.progressBar,
-            "positionClass": "toast-" + notify.position,
-            "timeOut": notify.timeOut,
-            "extendedTimeOut": notify.extendedTimeOut,
-            "showMethod": notify.showMethod,
-            "hideMethod": notify.hideMethod,
-        };
+   toastr.options = {
+       "closeButton": notify.closeButton,
+       "progressBar": notify.progressBar,
+       "positionClass": "toast-" + notify.position,
+       "timeOut": notify.timeOut,
+       "extendedTimeOut": notify.extendedTimeOut,
+       "showMethod": notify.showMethod,
+       "hideMethod": notify.hideMethod,
+   };
 
-        toastr[notify.type](notify.message, notify.title);
-    @endif
+   toastr[notify.type](notify.message, notify.title);
+@endif
     
 
     // # switch case

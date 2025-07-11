@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Support\Str;
+use App\Models\UserProfile;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Mail\ForgotPasswordMail;
-use App\Models\UserProfile;
+use App\Helpers\NotificationHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -17,6 +18,10 @@ use Illuminate\Support\Facades\Mail;
 class AuthController extends Controller
 {
     //
+
+   public function index(){
+        return view('welcome');
+    }
 
     public function login(Request $request)
     {
@@ -43,7 +48,8 @@ class AuthController extends Controller
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password], true)) {
             if (Auth::User()->role == 'admin') {
-                return redirect()->intended('admin/dashboard');
+
+                return redirect()->intended('admin/dashboard')->with('notification', NotificationHelper::notify('Login SuccessFully !!', 'success'));
             } else {
                 return redirect()->back()->with('error', 'Please enter the correct credentials');
             }
@@ -78,7 +84,7 @@ class AuthController extends Controller
     {
 
         Auth::logout();
-        return redirect(url('/'));
+        return redirect(route('/'))->with('notification', NotificationHelper::notify('Logout SuccessFully !!', 'warning'));
     }
 
 
@@ -135,20 +141,19 @@ class AuthController extends Controller
         $user->user_id = Auth::user()->id;
         // return $user;
 
-       // $user = User::find(Auth::user()->id);
-       // $user->about = $request->about;
-       // $user->address = $request->address;
-       // $user->user()->name = $request->name;
-       // $user->user()->email = $request->email;
+        // $user = User::find(Auth::user()->id);
+        // $user->about = $request->about;
+        // $user->address = $request->address;
+        // $user->user()->name = $request->name;
+        // $user->user()->email = $request->email;
 
-       // $user->phone = $request->phone;
+        // $user->phone = $request->phone;
 
         $user->twitter_profile = $request->twitter;
         $user->facebook_profile = $request->facebook;
         $user->instagram_profile = $request->instagram;
         $user->save();
-        
+
         return redirect()->route('user.profile');
-      
     }
 }

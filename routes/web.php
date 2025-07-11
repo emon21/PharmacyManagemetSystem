@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MedicineController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +18,10 @@ use App\Http\Controllers\MedicineController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Route::get('/',[AuthController::class,'index'])->name('/');
 
 # Authentication Route
 
@@ -111,6 +113,18 @@ Route::group(['middleware' => 'admin'], function () {
 
 
     # ============= Medicine Route End ============= #
+
+
+    # ============= Supplier Route Start ============= #
+    Route::get('admin/supplier',[SupplierController::class,'index'])->name('supplier');
+    Route::get('admin/supplier/create',[SupplierController::class, 'create'])->name('supplier.create');
+    Route::post('admin/supplier/store',[SupplierController::class, 'store'])->name('supplier.store');
+    Route::get('admin/supplier/edit/{supplier}',[SupplierController::class, 'edit'])->name('supplier.edit');
+    Route::put('admin/supplier/update/{supplier}',[SupplierController::class, 'update'])->name('supplier.update');
+    Route::delete('admin/supplier/destroy/{supplier}',[SupplierController::class, 'destroy'])->name('supplier.destroy');
+   
+
+    # ============= Supplier Route End ============= #
     
     # Logout
     Route::post('logout', [AuthController::class, 'logout']);
