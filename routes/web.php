@@ -182,10 +182,6 @@ Route::group(['middleware' => 'admin'], function () {
     });
 
 
-
-
-
-
     // purchase
     # ============= Purchase Route End ============= #
     

@@ -60,27 +60,45 @@
                                     <tr>
                                         <th scope="col">ID</th>
                                         <th scope="col">Supplier Name</th>
-                                        <th scope="col">Invoice Date</th>
-                                        <th scope="col">Net Price</th>
-                                        <th scope="col">Total Price</th>
-                                        <th scope="col">Total Discount</th>
+                                        <th scope="col">Invoice ID</th>
+                                        <th scope="col">Voucher Number</th>
+                                        <th scope="col">Purchase Date</th>
+                                        <th scope="col">Total Amount</th>
+                                        <th scope="col">Payment Status</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($purchases as $purchase)
                                         <tr>
-                                            <td>{{ $purchase->id }}</td>
-                                            <td>{{ $purchase->supplier_name }}</td>
-                                            <td>{{ $purchase->invoice_date }}</td>
-                                            <td>{{ $purchase->net_price }}</td>
-                                            <td>{{ $purchase->total_price }}</td>
-                                            <td>{{ $purchase->total_discount }}</td>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $purchase->supplier->supplier_name }}</td>
+                                            <td>{{ $purchase->invoice_id }}</td>
+                                            <td>{{ $purchase->voucher_number }}</td>
+                                            <td>{{ $purchase->purchase_date }}</td>
+                                            <td>{{ $purchase->total_amount }}</td>
+                                            <td>{{ $purchase->payment_status }}
+                                                @if($purchase->payment_status == '1')
+                                                    <span class="badge bg-info">Pending</span>
+                                                @elseif($purchase->payment_status == '2')
+                                                    <span class="badge bg-success">Accept</span>
+                                                    @else
+                                                    <span class="badge bg-danger">Reject</span>
+                                                @endif
+                                            </td>
+                                           
                                             <td>
                                                 <a href="{{ url('admin/purchase/edit/' . $purchase->id) }}"
                                                     class="btn btn-primary">Edit</a>
-                                                <a href="{{ url('admin/purchase/delete/' . $purchase->id) }}"
-                                                    class="btn btn-danger">Delete</a>
+                                                    <form action="{{ url('admin/purchase/destroy/' . $purchase->id) }}"
+                                                        method="POST" style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                        
+                                                    </form>
+                                                {{-- <a href="{{ url('admin/purchase/destroy/' . $purchase->id) }}"
+                                                    class="btn btn-danger">Delete</a> --}}
                                             </td>
                                         </tr>
                                     @endforeach

@@ -15,4 +15,11 @@ class Supplier extends Model
         'supplier_phone',
         'supplier_address',
     ];
+
+    # Relationship with Purchase
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
+    
 }

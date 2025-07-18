@@ -17,4 +17,17 @@ class Purchase extends Model
         'total_amount',
         'payment_status'
     ];
+
+
+    # Relationship with Supplier
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
+    }
+
+    # Relationship with Invoice
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
+    }
 }
