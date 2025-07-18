@@ -4,14 +4,16 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Dashboard - Pharmacy M.S</title>
+  {{-- {{-- <title>Dashboard - Pharmacy M.S</title>  $title ?? 'Pharmacy M.S' }} --}}
+  {{-- <title>{{ $pageTitle ?? 'Pharmacy M.S' }}</title> --}}
+  {{-- <title>@yield('title', 'Pharmacy M.S')</title> --}}
+  {{-- <title>{{ isset($pageTitle) ? $pageTitle : 'Pharmacy M.S' }}</title> --}}
   <meta content="Pharmacy Management System" name="author">
   <meta content="Pharmacy Management System" name="Pharmacy Management System">
   
-  {{-- <title>{{ $title }}</title> --}}
-  
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+  {{-- <title>{{ $pageTitle ?? 'Pharmacy M.S' }}</title> --}}
+  {{-- <title>{{$title ?? 'Pharmacy M.S'}}</title> --}}
+  <title>{{ $pageTitle ?? 'Pharmacy M.S' }}</title>
 
   <!-- Favicons -->
   <link href="{{ asset('admin') }}/assets/img/favicon.png" rel="icon">

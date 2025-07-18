@@ -2,10 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PurchaseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -125,12 +127,72 @@ Route::group(['middleware' => 'admin'], function () {
    
 
     # ============= Supplier Route End ============= #
+
+    # ============= Invoice Route Start ============= #
+
+    Route::get('admin/invoice',[InvoiceController::class,'index'])->name('invoice');
+    Route::get('admin/invoice/create',[InvoiceController::class,'create'])->name('invoice.create');
+    Route::post('admin/invoice/store',[InvoiceController::class,'store'])->name('invoice.store');
+    Route::get('admin/invoice/edit/{invoice}',[InvoiceController::class,'edit'])->name('invoice.edit');
+    Route::put('admin/invoice/update/{invoice}',[InvoiceController::class,'update'])->name('invoice.update');
+    Route::delete('admin/invoice/destroy/{invoice}',[InvoiceController::class,'destroy'])->name('invoice.destroy');
+    Route::get('admin/invoice/show/{invoice}',[InvoiceController::class,'show'])->name('invoice.show');
+
+
+    # ============= Invoice Route End ============= #
+
+
+    # ============= Purchase Route Start ============= #
+
+    // // All Data show
+    // Route::get('admin/purchase', [PurchaseController::class, 'index'])->name('purchase');
+
+    // // Create Method
+    // Route::get('admin/purchase/create', [PurchaseController::class, 'create'])->name('purchase.create');
+
+    // // Store Method
+    // Route::get('admin/purchase/store', [PurchaseController::class, 'store'])->name('purchase.store');
+
+    // // show Method
+    // Route::get('admin/purchase/show/{purchase}', [PurchaseController::class, 'show'])->name('purchase.show');
+
+    // // Edit Method
+    // Route::get('admin/purchase/edit/{purchase}', [PurchaseController::class, 'edit'])->name('purchase.edit');
+
+    // // Update Method
+    // Route::put('admin/purchase/update/{purchase}', [PurchaseController::class, 'update'])->name('purchase.edit');
+
+    // // Delete Method
+    // Route::delete('admin/purchase/delete', [PurchaseController::class, 'destroy'])->name('purchase.destroy');
+
+    // // Status Change Method
+    // Route::get('admin/purchase/status', [PurchaseController::class, 'status'])->name('purchase.status');
+
+
+    # route group and prefix
+
+    Route::prefix('admin/purchase')->group(function () {
+        Route::get('/', [PurchaseController::class, 'index'])->name('purchase');
+        Route::get('/create', [PurchaseController::class, 'create'])->name('purchase.create');
+        Route::post('/store', [PurchaseController::class, 'store'])->name('purchase.store');
+        Route::get('/edit/{purchase}', [PurchaseController::class, 'edit'])->name('purchase.edit');
+        Route::put('/update/{purchase}', [PurchaseController::class, 'update'])->name('purchase.update');
+        Route::delete('/destroy/{purchase}', [PurchaseController::class, 'destroy'])->name('purchase.destroy');
+        Route::get('/show/{purchase}', [PurchaseController::class, 'show'])->name('purchase.show');
+    });
+
+
+
+
+
+
+    // purchase
+    # ============= Purchase Route End ============= #
     
     # Logout
     Route::post('logout', [AuthController::class, 'logout']);
 
 });
-
 
 
 # ================== Backend Route ================== #

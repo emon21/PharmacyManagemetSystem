@@ -48,5 +48,18 @@
                 <span>Supplier</span>
             </a>
         </li>
+        
+        <li class="nav-item">
+            <a class="nav-link @if (Request::segment(2) == 'invoice') @else collapsed @endif" href="{{ route('invoice') }}">
+                <i class="bi bi-journal-text"></i>
+                <span>Invoice</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @if (Request::segment(2) == 'purchase') @else collapsed @endif" href="{{ route('purchase') }}">
+                <i class="bi bi-currency-dollar"></i>
+                <span>Purchase</span>
+            </a>
+        </li>
     </ul>
 </aside>

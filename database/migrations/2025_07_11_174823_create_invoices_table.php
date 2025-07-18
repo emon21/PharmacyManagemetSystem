@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('customer_id')->nullable();
+            $table->string('net_total')->nullable();
+            $table->date('invoice_date')->nullable();
+            $table->string('total_amount')->nullable();
+            $table->string('total_discount')->nullable();
+
+            # Relationship 
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->timestamps();
         });
     }
