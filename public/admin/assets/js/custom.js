@@ -108,3 +108,19 @@ function deleteConfirm(id) {
        }
    })
 }
+
+// Toggle Password Form
+function togglePasswordForm() {
+    var passwordForm = document.getElementById('password-form');
+    if (passwordForm.style.display === 'none' || passwordForm.style.display === '') {
+        passwordForm.style.display = 'block';
+    } else {
+        passwordForm.style.display = 'none';
+    }
+}
+
+// Refresh Page Function
+
+function refreshPage() {
+    window.location.reload(); // full page reload
+}

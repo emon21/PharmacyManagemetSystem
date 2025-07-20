@@ -3,8 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UserSeeder extends Seeder
 {
@@ -27,7 +28,7 @@ class UserSeeder extends Seeder
         $user = new User();
         $user->name = 'Admin';
         $user->email = 'admin@mail.com';
-        $user->password = bcrypt('12345678');
+        $user->password = Hash::make('12345678');
         $user->role = 'admin';
         $user->ProfilePicture = 'default.png';
         $user->save();
@@ -37,13 +38,13 @@ class UserSeeder extends Seeder
         // $user = User::find(1);
         $user->UserProfile()->create([
             'user_id' => 2,
-            'about' => 'Tempora libero non est unde veniam est qui dolor',
+            'about' => 'I am a Laravel Developer | PHP | Java| JavaScript',
             'address' => 'Dhaka, Bangladesh',
             'phone' => '0123456789',
-            'facebook_profile' => '#',
-            'twitter_profile' => '#',
-            'instagram_profile' => '#',
-            'linkedin_profile' => '#',
+            'facebook_profile' => 'Facebook',
+            'twitter_profile' => 'Twitter',
+            'instagram_profile' => 'Instagram',
+            'linkedin_profile' => 'Linkedin',
         ]);
 
         // $user->save();

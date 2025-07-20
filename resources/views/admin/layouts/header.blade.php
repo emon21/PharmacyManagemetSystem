@@ -8,12 +8,23 @@
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
+    
+
     <div class="search-bar">
         <form class="search-form d-flex align-items-center" method="POST" action="#">
             <input type="text" name="query" placeholder="Search" title="Enter search keyword">
             <button type="submit" title="Search"><i class="bi bi-search"></i></button>
         </form>
     </div><!-- End Search Bar -->
+
+    {{-- <button type="button" class="btn btn-secondary" onclick="location.reload();">
+        <i class="bi bi-arrow-clockwise"></i> Refresh
+    </button> --}}
+
+    {{-- <a href="{{ url('clear-routes') }}"><i class="bi bi-arrow-clockwise"></i> Clear</a> --}}
+
+    <button type="button" class="btn btn-warning" onclick="refreshPage()"><i class="bi bi-arrow-clockwise"></i></button>
+
 
     <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
@@ -23,6 +34,7 @@
                     <i class="bi bi-search"></i>
                 </a>
             </li><!-- End Search Icon-->
+            
 
             <li class="nav-item dropdown">
 
@@ -171,7 +183,11 @@
             <li class="nav-item dropdown pe-3">
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                    <img src="{{ asset('admin') }}/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+                     <img class="rounded-circle"
+                            src="{{ asset(Auth::user()->ProfilePicture ?? 'uploads/admin-profile/default-img.png') }}"
+                            alt="Profile" style="max-width: 200px; border-radius: 10px;">
+
+                    {{-- <img src="{{ asset('admin') }}/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> --}}
                     <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->name }}</span>
                 </a><!-- End Profile Iamge Icon -->
 

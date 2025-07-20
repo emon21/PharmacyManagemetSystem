@@ -5,7 +5,9 @@
         <div class="card">
             <div class="card-body">
                 <div class="pt-3 ">
-                    <img src="{{ asset('admin') }}/assets/img/profile-img.jpg" alt="Profile" class="">
+                     <img class="img-fluid"
+                            src="{{ asset(Auth::user()->ProfilePicture ?? 'uploads/admin-profile/default-img.png') }}"
+                            alt="Profile" style="max-width: 150px; height: 100px; border-radius: 10px;">
                 </div>
                 <h2 class="card-title">Hi, {{ Auth::user()->name }}</h2>
                 <a href="{{ route('user.profile') }}" class="card-link">User Profile</a>

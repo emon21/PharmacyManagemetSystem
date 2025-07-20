@@ -1,13 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MedicineController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\PurchaseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,9 +41,28 @@ Route::group(['middleware' => 'admin'], function () {
 
     Route::get('admin/dashboard', [DashboardController::class, 'dashboard']);
 
+    # Admin Dashboard
+    // Route::get('admin/dashboard', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
+
     # User Profile
-    Route::get('admin/user/profile', [AuthController::class, 'userProfile'])->name('user.profile');
-    Route::post('admin/user/profile/change', [AuthController::class, 'ProfileChange'])->name('profile.change');
+    Route::get('user/profile',[DashboardController::class, 'userProfile'])->name('user.profile');
+   
+    # User Profile Update
+    Route::post('user/profile/update', [DashboardController::class, 'ProfileUpdate'])->name('profile.update');
+    # User Profile Change Password
+    Route::get('user/profile/change-password', [DashboardController::class, 'ProfilePasswordChange'])->name('profile.change');
+    # User Password Update
+    Route::post('user/profile/password/update', [DashboardController::class, 'ProfilePasswordUpdate'])->name('profile.password.update');
+
+
+    // # User Profile
+    // Route::get('admin/user/profile', [AuthController::class, 'userProfile'])->name('user.profile');
+    // Route::post('admin/user/profile/change', [AuthController::class, 'ProfileChange'])->name('profile.change');
+
+    // Route::post('admin/user/profile/update', [AuthController::class, 'ProfileUpdate'])->name('profile.update');
+
+
+    // Route::post('admin/user/profile/password/update', [AuthController::class, 'ProfilePasswordUpdate'])->name('profile.password.update');
 
     # Customer Route
     // Route::resource('admin/customer', CustomerController::class);
@@ -208,3 +228,10 @@ Route::group(['middleware' => 'admin'], function () {
 //     // route for frontend
 
 // });
+
+# ================== Route clear ================== #
+
+Route::get('/clear-routes', function () {
+    Artisan::call('route:clear');
+    return "Routes cleared!";
+});

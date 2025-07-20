@@ -156,4 +156,51 @@ class AuthController extends Controller
 
         return redirect()->route('user.profile');
     }
+
+    public function ProfileUpdate(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->save();
+
+        return redirect()->route('user.profile')->with('notification', NotificationHelper::notify('Profile Updated Successfully !!', 'success'));
+    }
+
+    public function ProfilePasswordUpdate(Request $request,User $user)
+    {
+        // Validate the request
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:8',
+            'confirm_password' => 'required|same:new_password',
+        ]);
+        // Check if the current password matches the user's password
+        // $user = User::where('id', Auth::user()->id)->first();
+        // return $user;
+        // $user = User::find(Auth::user()->id);
+        // return $user;
+
+        $user = User::find(Auth::user()->id);
+
+        if (Hash::check($request->current_password, $user->password)) {
+            if ($request->new_password == $request->confirm_password) {
+                $user->password = Hash::make($request->new_password);
+                $user->save();
+                return redirect()->route('user.profile')->with('notification', NotificationHelper::notify('Password Updated Successfully !!', 'success'));
+            } else {
+                return redirect()->back()->with('error', 'New Password and Confirm Password do not match');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Current Password is incorrect');
+        }
+
+        
+    }
+
+    // public function dashboard()
+    // {
+    //     return view('admin.dashboard');
+    // }
 }
